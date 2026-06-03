@@ -473,6 +473,93 @@ tbody td.green { color: var(--green); }
 .tooltip.visible { opacity: 1; }
 .tooltip strong { color: var(--gold-light); font-family: var(--font-playfair), 'Playfair Display', serif; }
 
+.explainer {
+  border-top: 1px solid var(--border);
+  padding: 4rem 1.5rem 5rem;
+}
+
+.explainer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.explainer-heading {
+  font-family: var(--font-playfair), 'Playfair Display', serif;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 1rem;
+}
+
+.explainer-block p {
+  color: var(--muted);
+  line-height: 1.8;
+  font-size: 0.95rem;
+  max-width: 780px;
+  margin-bottom: 0.8rem;
+}
+
+.explainer-block p em { color: var(--text); font-style: italic; }
+.explainer-block p strong { color: var(--text); font-weight: 500; }
+
+.explainer-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.2rem;
+}
+
+@media (max-width: 700px) {
+  .explainer-grid { grid-template-columns: 1fr; }
+}
+
+.explainer-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.6rem;
+}
+
+.explainer-card h3 {
+  font-family: var(--font-playfair), 'Playfair Display', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--gold-light);
+  margin-bottom: 0.8rem;
+}
+
+.explainer-card p {
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.75;
+  margin-bottom: 0.6rem;
+}
+
+.explainer-card ul {
+  list-style: none;
+  margin-bottom: 0.8rem;
+}
+
+.explainer-card ul li {
+  font-size: 0.85rem;
+  color: var(--muted);
+  padding: 0.2rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.explainer-card ul li:last-child { border-bottom: none; }
+.explainer-card ul li strong { color: var(--gold-light); font-weight: 600; margin-right: 0.4rem; }
+
+.explainer-formula {
+  font-family: var(--font-playfair), 'Playfair Display', serif;
+  font-size: 1.3rem;
+  color: var(--gold);
+  margin-bottom: 1rem;
+  letter-spacing: 0.02em;
+}
+
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: translateY(0); }

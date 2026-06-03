@@ -305,6 +305,57 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      <section className="explainer">
+        <div className="explainer-inner">
+
+          <div className="explainer-block">
+            <h2 className="explainer-heading">What is Compound Interest?</h2>
+            <p>Compound interest is the process of earning interest on both your original principal <em>and</em> the interest you've already accumulated. Unlike simple interest — which only grows your initial deposit — compound interest accelerates wealth building exponentially over time. The longer your money compounds, the faster it grows.</p>
+            <p>Albert Einstein reportedly called compound interest <em>"the eighth wonder of the world. He who understands it, earns it; he who doesn't, pays it."</em> Whether or not Einstein said it, the math is undeniable: time and consistency are the two most powerful levers in any investment strategy.</p>
+          </div>
+
+          <div className="explainer-grid">
+            <div className="explainer-card">
+              <h3>The Formula</h3>
+              <div className="explainer-formula">A = P(1 + r/n)<sup>nt</sup></div>
+              <ul>
+                <li><strong>A</strong> — Final balance</li>
+                <li><strong>P</strong> — Principal (initial investment)</li>
+                <li><strong>r</strong> — Annual interest rate</li>
+                <li><strong>n</strong> — Compounding periods per year</li>
+                <li><strong>t</strong> — Time in years</li>
+              </ul>
+              <p>This calculator applies the formula in real time as you adjust the sliders, adding monthly contributions at each compounding period.</p>
+            </div>
+
+            <div className="explainer-card">
+              <h3>Why Monthly Contributions Matter</h3>
+              <p>Regular contributions dramatically amplify compound growth. A $10,000 investment at 7% over 30 years grows to roughly $76,000. Add just $500 per month and that number jumps to over $660,000 — nearly 9× more.</p>
+              <p>This multiplier effect happens because each contribution starts compounding immediately. The earlier and more consistently you invest, the less you rely on a large initial lump sum.</p>
+            </div>
+
+            <div className="explainer-card">
+              <h3>Compound Frequency</h3>
+              <p>The more frequently interest compounds, the more you earn. Monthly compounding outperforms quarterly, which outperforms annual — because each cycle adds interest to a slightly larger base.</p>
+              <p>In practice, most index funds and ETFs compound effectively on a daily or continuous basis through price appreciation and dividend reinvestment. Use the frequency toggle in the calculator to compare scenarios.</p>
+            </div>
+
+            <div className="explainer-card">
+              <h3>Start Early — Time Is the Key Variable</h3>
+              <p>Time is the most powerful input in the compound interest equation. Starting at 25 instead of 35 — with identical contributions and returns — can mean a difference of hundreds of thousands of dollars by retirement.</p>
+              <p>Use the Time Horizon slider to see exactly how many years of compounding changes your outcome. Even adding five extra years late in the horizon produces outsized results due to exponential growth.</p>
+            </div>
+          </div>
+
+          <div className="explainer-block">
+            <h2 className="explainer-heading">How to Use This Calculator</h2>
+            <p>Set your <strong>Initial Investment</strong> to the lump sum you plan to invest today. Add a <strong>Monthly Contribution</strong> for what you can commit each month. Adjust the <strong>Annual Return</strong> based on your expected portfolio — the S&amp;P 500 has historically averaged around 7% after inflation. Finally, set your <strong>Time Horizon</strong> to your target year. The chart and milestone table update instantly.</p>
+            <p>Once you see your projected balance, use the platform links above to open a brokerage account and start putting those numbers into motion.</p>
+          </div>
+
+        </div>
+      </section>
     </>
   );
 }
