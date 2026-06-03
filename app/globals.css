@@ -270,6 +270,92 @@ input[type="range"]::-moz-range-thumb {
   margin-top: 0.3rem;
 }
 
+.affiliate-cta {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.8rem;
+  animation: fadeUp 0.5s 0.08s ease both;
+}
+
+.affiliate-headline {
+  font-family: var(--font-playfair), 'Playfair Display', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 1.2rem;
+}
+
+.affiliate-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 600px) {
+  .affiliate-cards { grid-template-columns: 1fr; }
+}
+
+.affiliate-card {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.2rem;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.affiliate-card:hover {
+  border-color: rgba(201, 168, 76, 0.4);
+  transform: translateY(-2px);
+}
+
+.affiliate-name {
+  font-family: var(--font-playfair), 'Playfair Display', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--gold-light);
+}
+
+.affiliate-tag {
+  font-size: 0.75rem;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+}
+
+.affiliate-hook {
+  font-size: 0.78rem;
+  color: var(--green);
+  margin-bottom: 0.5rem;
+}
+
+.affiliate-btn {
+  margin-top: auto;
+  display: inline-block;
+  background: var(--gold-dim);
+  border: 1px solid var(--gold);
+  border-radius: 8px;
+  padding: 0.45rem 0.9rem;
+  font-size: 0.78rem;
+  color: var(--gold-light);
+  letter-spacing: 0.05em;
+  transition: background 0.2s;
+}
+
+.affiliate-card:hover .affiliate-btn {
+  background: rgba(201, 168, 76, 0.25);
+}
+
+.affiliate-disclosure {
+  font-size: 0.7rem;
+  color: var(--muted);
+  text-align: center;
+}
+
 .chart-container {
   background: var(--surface);
   border: 1px solid var(--border);

@@ -191,6 +191,27 @@ export default function Home() {
             </div>
           </div>
 
+          <div className="affiliate-cta">
+            <div className="affiliate-headline">
+              Start building your {fmtFull(final)} — pick a platform
+            </div>
+            <div className="affiliate-cards">
+              {([
+                { name: 'Robinhood',   tag: 'Best for beginners',       hook: 'Free stock on signup',        href: '#robinhood' },
+                { name: 'M1 Finance',  tag: 'Best for auto-investing',  hook: 'Automatic rebalancing',       href: '#m1' },
+                { name: 'Public.com',  tag: 'Best for transparency',    hook: 'No payment for order flow',   href: '#public' },
+              ] as const).map(({ name, tag, hook, href }) => (
+                <a key={name} href={href} target="_blank" rel="noopener noreferrer" className="affiliate-card">
+                  <div className="affiliate-name">{name}</div>
+                  <div className="affiliate-tag">{tag}</div>
+                  <div className="affiliate-hook">{hook}</div>
+                  <div className="affiliate-btn">Open account →</div>
+                </a>
+              ))}
+            </div>
+            <div className="affiliate-disclosure">Affiliate links — we may earn a commission at no cost to you</div>
+          </div>
+
           <div className="chart-container" ref={containerRef}>
             <div className="chart-header">
               <div className="chart-title">Growth Over Time</div>
