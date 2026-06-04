@@ -228,15 +228,23 @@ function Calculator() {
 
         <div className="results">
           <div className="stats-row">
-            <div className="stat-card highlight">
-              <div className="stat-label">Final Balance</div>
-              <div className="stat-number gold">{fmtFull(final)}</div>
-              <div className="stat-sub">{multiplier}× your initial investment</div>
-            </div>
+            {mode === 'goal' ? (
+              <div className="stat-card highlight">
+                <div className="stat-label">Monthly Needed</div>
+                <div className="stat-number gold">{fmtFull(goalMonthly)}</div>
+                <div className="stat-sub">to reach {fmtFull(target)}</div>
+              </div>
+            ) : (
+              <div className="stat-card highlight">
+                <div className="stat-label">Final Balance</div>
+                <div className="stat-number gold">{fmtFull(final)}</div>
+                <div className="stat-sub">{multiplier}× your initial investment</div>
+              </div>
+            )}
             <div className="stat-card">
-              <div className="stat-label">Total Contributed</div>
-              <div className="stat-number">{fmtFull(totalContrib)}</div>
-              <div className="stat-sub">principal + deposits</div>
+              <div className="stat-label">{mode === 'goal' ? 'Final Balance' : 'Total Contributed'}</div>
+              <div className="stat-number">{mode === 'goal' ? fmtFull(final) : fmtFull(totalContrib)}</div>
+              <div className="stat-sub">{mode === 'goal' ? `${multiplier}× your money` : 'principal + deposits'}</div>
             </div>
             <div className="stat-card">
               <div className="stat-label">Interest Earned</div>
