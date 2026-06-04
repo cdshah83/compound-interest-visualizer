@@ -33,14 +33,23 @@ function clamp(v: number, min: number, max: number) {
   return isFinite(v) && v >= min && v <= max ? v : NaN;
 }
 
+function calcGoal(target: number, principal: number, rate: number, years: number, freq: number): number {
+  if (rate === 0) return Math.max(0, (target - principal) / (years * 12));
+  const r = rate / 100 / freq;
+  const g = Math.pow(1 + r, freq * years);
+  return Math.max(0, (target - principal * g) * r / ((g - 1) * (12 / freq)));
+}
+
 function Calculator() {
   const searchParams = useSearchParams();
 
+  const [mode, setMode] = useState<'calc' | 'goal'>(() => searchParams.get('mode') === 'goal' ? 'goal' : 'calc');
   const [principal, setPrincipal] = useState(() => clamp(Number(searchParams.get('p')), 1000, 500000) || 10000);
   const [monthly, setMonthly] = useState(() => { const v = Number(searchParams.get('m')); return isFinite(v) && v >= 0 && v <= 5000 ? v : 500; });
   const [rate, setRate] = useState(() => clamp(Number(searchParams.get('r')), 1, 20) || 7);
   const [years, setYears] = useState(() => clamp(Number(searchParams.get('y')), 1, 50) || 30);
   const [compoundFreq, setCompoundFreq] = useState(() => { const f = Number(searchParams.get('f')); return [1, 4, 12].includes(f) ? f : 4; });
+  const [target, setTarget] = useState(() => clamp(Number(searchParams.get('target')), 50000, 5000000) || 500000);
   const [chartWidth, setChartWidth] = useState(600);
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
@@ -58,11 +67,15 @@ function Calculator() {
   }, []);
 
   useEffect(() => {
-    const params = new URLSearchParams({ p: String(principal), m: String(monthly), r: String(rate), y: String(years), f: String(compoundFreq) });
+    const base = { p: String(principal), r: String(rate), y: String(years), f: String(compoundFreq) };
+    const params = mode === 'goal'
+      ? new URLSearchParams({ ...base, mode: 'goal', target: String(target) })
+      : new URLSearchParams({ ...base, m: String(monthly) });
     window.history.replaceState(null, '', '?' + params.toString());
-  }, [principal, monthly, rate, years, compoundFreq]);
+  }, [mode, principal, monthly, rate, years, compoundFreq, target]);
 
-  const data = calcData(principal, monthly, rate, years, compoundFreq);
+  const goalMonthly = mode === 'goal' ? calcGoal(target, principal, rate, years, compoundFreq) : monthly;
+  const data = calcData(principal, goalMonthly, rate, years, compoundFreq);
   const final = data[data.length - 1].balance;
   const totalContrib = data[data.length - 1].totalContrib;
   const interest = final - totalContrib;
@@ -124,7 +137,10 @@ function Calculator() {
 
       <div className="app">
         <aside className="panel">
-          <div className="panel-title">Your Inputs</div>
+          <div className="mode-tabs">
+            <button className={`mode-tab${mode === 'calc' ? ' active' : ''}`} onClick={() => setMode('calc')}>Calculate</button>
+            <button className={`mode-tab${mode === 'goal' ? ' active' : ''}`} onClick={() => setMode('goal')}>Goal</button>
+          </div>
 
           <div className="field">
             <div className="field-header">
@@ -135,14 +151,25 @@ function Calculator() {
               onChange={e => setPrincipal(+e.target.value)} />
           </div>
 
-          <div className="field">
-            <div className="field-header">
-              <span className="field-label">Monthly Contribution</span>
-              <span className="field-value gold">${monthly.toLocaleString()}</span>
+          {mode === 'calc' ? (
+            <div className="field">
+              <div className="field-header">
+                <span className="field-label">Monthly Contribution</span>
+                <span className="field-value gold">${monthly.toLocaleString()}</span>
+              </div>
+              <input type="range" min="0" max="5000" step="50" value={monthly}
+                onChange={e => setMonthly(+e.target.value)} />
             </div>
-            <input type="range" min="0" max="5000" step="50" value={monthly}
-              onChange={e => setMonthly(+e.target.value)} />
-          </div>
+          ) : (
+            <div className="field">
+              <div className="field-header">
+                <span className="field-label">Target Balance</span>
+                <span className="field-value gold">{fmtFull(target)}</span>
+              </div>
+              <input type="range" min="50000" max="5000000" step="10000" value={target}
+                onChange={e => setTarget(+e.target.value)} />
+            </div>
+          )}
 
           <div className="field">
             <div className="field-header">
@@ -182,6 +209,21 @@ function Calculator() {
               )}
             </div>
           </div>
+
+          {mode === 'goal' && (
+            <>
+              <div className="divider" />
+              <div className="goal-answer">
+                <div className="stat-label">Save monthly</div>
+                <div className="stat-number gold">{fmtFull(goalMonthly)}</div>
+                <div className="stat-sub">
+                  {goalMonthly === 0
+                    ? 'Your initial investment already covers this goal.'
+                    : `to reach ${fmtFull(target)} in ${years} ${years === 1 ? 'year' : 'years'}`}
+                </div>
+              </div>
+            </>
+          )}
         </aside>
 
         <div className="results">

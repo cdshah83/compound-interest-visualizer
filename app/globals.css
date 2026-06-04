@@ -93,6 +93,52 @@ body::before {
   animation: fadeUp 0.5s ease both;
 }
 
+.mode-tabs {
+  display: flex;
+  background: var(--bg);
+  border-radius: 10px;
+  padding: 3px;
+  gap: 3px;
+  margin-bottom: 1.6rem;
+}
+
+.mode-tab {
+  flex: 1;
+  padding: 0.5rem;
+  border-radius: 7px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.mode-tab.active {
+  background: var(--gold);
+  color: var(--bg);
+  font-weight: 700;
+}
+
+.goal-answer {
+  background: linear-gradient(135deg, var(--surface) 0%, rgba(201,168,76,0.06) 100%);
+  border: 1px solid rgba(201,168,76,0.35);
+  border-radius: 14px;
+  padding: 1.2rem 1.4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.goal-answer::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
 .panel-title {
   font-family: var(--font-playfair), 'Playfair Display', serif;
   font-size: 1.1rem;
