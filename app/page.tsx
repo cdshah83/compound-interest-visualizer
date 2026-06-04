@@ -1,5 +1,6 @@
 'use client';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 
 type DataPoint = { year: number; balance: number; totalContrib: number };
 
@@ -28,12 +29,18 @@ function calcData(principal: number, monthly: number, rate: number, years: numbe
   return data;
 }
 
-export default function Home() {
-  const [principal, setPrincipal] = useState(10000);
-  const [monthly, setMonthly] = useState(500);
-  const [rate, setRate] = useState(7);
-  const [years, setYears] = useState(30);
-  const [compoundFreq, setCompoundFreq] = useState(4);
+function clamp(v: number, min: number, max: number) {
+  return isFinite(v) && v >= min && v <= max ? v : NaN;
+}
+
+function Calculator() {
+  const searchParams = useSearchParams();
+
+  const [principal, setPrincipal] = useState(() => clamp(Number(searchParams.get('p')), 1000, 500000) || 10000);
+  const [monthly, setMonthly] = useState(() => { const v = Number(searchParams.get('m')); return isFinite(v) && v >= 0 && v <= 5000 ? v : 500; });
+  const [rate, setRate] = useState(() => clamp(Number(searchParams.get('r')), 1, 20) || 7);
+  const [years, setYears] = useState(() => clamp(Number(searchParams.get('y')), 1, 50) || 30);
+  const [compoundFreq, setCompoundFreq] = useState(() => { const f = Number(searchParams.get('f')); return [1, 4, 12].includes(f) ? f : 4; });
   const [chartWidth, setChartWidth] = useState(600);
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
@@ -49,6 +56,11 @@ export default function Home() {
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
+
+  useEffect(() => {
+    const params = new URLSearchParams({ p: String(principal), m: String(monthly), r: String(rate), y: String(years), f: String(compoundFreq) });
+    window.history.replaceState(null, '', '?' + params.toString());
+  }, [principal, monthly, rate, years, compoundFreq]);
 
   const data = calcData(principal, monthly, rate, years, compoundFreq);
   const final = data[data.length - 1].balance;
@@ -357,5 +369,13 @@ export default function Home() {
         </div>
       </section>
     </>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={null}>
+      <Calculator />
+    </Suspense>
   );
 }
